@@ -1,4 +1,5 @@
 import random
+import math
 
 players_hand = []
 dealers_hand = []
@@ -59,7 +60,10 @@ def calc_hand(hand, is_dealer = False):
     total = 0
     index_of_aces = []
     for card in hand:
-        total+=card["number"]
+        try:
+            total+=card["number"]
+        except:
+            print("failed. Total: "+str(total)+" and card to be added: "+str(card["number"]))
         if card["number"] == 11:
             index_of_aces.append(hand.index(card))
 
@@ -104,7 +108,7 @@ def game_over():
     if response.lower() == 'n':
         playing = False
     else:
-        make_bet()
+        bet = make_bet()
 
 def make_bet():
     global bankroll
@@ -129,10 +133,8 @@ def parse_bet(user_input):
     try:
         value = int(user_input)
         playing = True
-        print("yay")
         return value
     except ValueError:
-        print("boo")
         return 0
 
 def draw(hand):
