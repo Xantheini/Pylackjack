@@ -122,7 +122,7 @@ while playing:
     deal_out()
     while not round_over:
         response = input("Press any key to HIT, press 'n' to STAY.")
-        if response == 'n':
+        if response.lower() == 'n':
             while calc_hand(dealers_hand, True) < 17:
                 draw(dealers_hand)
         else:
