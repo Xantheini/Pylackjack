@@ -6,7 +6,7 @@ bankroll = 500
 bet = 0
 shoe = []
 sorted_decks = []
-playing = True
+playing = False
 for x in range(0,4): #Create sorted stack of 4 decks
     for suit in ["Spades","Diamonds","Clubs","Hearts"]:
         for face_value in range(2,12):
@@ -80,7 +80,7 @@ def game_over():
 
 def make_bet():
     bet = 0
-    response = input("You have $"+str(bankroll)+", please place your bet or press 'n' to leave.")
+    response = input("You have $"+bankroll+", please place your bet or press 'n' to leave.")
     if response.lower() == 'n':
         playing = False
     while bet == 0:
@@ -93,15 +93,7 @@ def make_bet():
             return bet
         except ValueError:
             print("Please place a bet or press 'n' to leave.")
-def draw(hand):
-    global shoe
-    card = shoe.pop()
-    hand.append(card)
-    print("You currently have: "+hand)
-    if calc_hand(hand) >= 21:
-        game_over()
 
-#Main        
 print("Welcome to Blackjack!")
 while playing:
     bet = make_bet()
@@ -109,14 +101,7 @@ while playing:
         shuffle_up()
         
     deal_out()
-    response = input("Press any key to HIT, press 'n' to STAY.")
-    if response == 'n':
-        while calc_hand(dealer_hand) < 17:
-            draw(dealer_hand)
-    else:
-        draw(player_hand)
-        if calc_hand(player_hand) > 21:
-            game_over()
+
 
 print("Goodbye.")
 shuffle_up()
