@@ -60,8 +60,9 @@ def calc_hand(hand, is_dealer = False):
     total = 0
     index_of_aces = []
     for card in hand:
-        total+=card["number"]
-        if card["number"] == 11:
+        card_value = card["number"]
+        total+=card_value
+        if card_value == 11:
             index_of_aces.append(hand.index(card))
 
     if is_dealer and total < 18 and len(index_of_aces) > 0: #Dealer hits on soft 17 and less, so calculate as lesser value
