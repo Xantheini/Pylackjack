@@ -7,6 +7,7 @@ bet = 0
 shoe = []
 sorted_decks = []
 playing = True
+game_over = True
 for x in range(0,4): #Create sorted stack of 4 decks
     for suit in ["Spades","Diamonds","Clubs","Hearts"]:
         for face_value in range(2,12):
@@ -27,7 +28,8 @@ def shuffle_up():
 
 def deal_out():
     #simulate real deal out, I know it's unnecessary
-    global shoe
+    global shoe, game_over
+    #game_over = False
     players_hand.append(shoe.pop())
     dealers_hand.append(shoe.pop())
     players_hand.append(shoe.pop())
@@ -55,9 +57,10 @@ def calc_hand(hand, is_dealer = False):
     return total
 
 def game_over():
-    global playing
+    global playing, game_over
     player_total = calc_hand(players_hand)
     dealer_total = calc_hand(dealers_hand)
+    game_over = True
     #Blackjack outcomes
     if player_total == 21 and len(players_hand) == 2:
         print("You have blackjack, you win!")
@@ -97,7 +100,9 @@ def draw(hand):
     global shoe
     card = shoe.pop()
     hand.append(card)
-    print("You currently have: "+hand)
+    print("Your hand looks like this:")
+    print(hand)
+    print("Total: "+str(calc_hand(hand)))
     if calc_hand(hand) >= 21:
         game_over()
 
@@ -109,14 +114,15 @@ while playing:
         shuffle_up()
         
     deal_out()
-    response = input("Press any key to HIT, press 'n' to STAY.")
-    if response == 'n':
-        while calc_hand(dealer_hand) < 17:
-            draw(dealer_hand)
-    else:
-        draw(player_hand)
-        if calc_hand(player_hand) > 21:
-            game_over()
+    while not game_over:
+        response = input("Press any key to HIT, press 'n' to STAY.")
+        if response == 'n':
+            while calc_hand(dealers_hand) < 17:
+                draw(dealers_hand, true)
+        else:
+            draw(players_hand)
+            if calc_hand(players_hand) > 21:
+                game_over()
 
 print("Goodbye.")
 shuffle_up()
