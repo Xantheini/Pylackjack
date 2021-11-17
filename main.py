@@ -7,7 +7,7 @@ bet = 0
 shoe = []
 sorted_decks = []
 playing = True
-game_over = True
+round_over = True
 for x in range(0,4): #Create sorted stack of 4 decks
     for suit in ["Spades","Diamonds","Clubs","Hearts"]:
         for face_value in range(2,12):
@@ -28,8 +28,8 @@ def shuffle_up():
 
 def deal_out():
     #simulate real deal out, I know it's unnecessary
-    global shoe, game_over
-    #game_over = False
+    global shoe, round_over 
+    round_over = False
     players_hand.append(shoe.pop())
     dealers_hand.append(shoe.pop())
     players_hand.append(shoe.pop())
@@ -57,21 +57,19 @@ def calc_hand(hand, is_dealer = False):
     return total
 
 def game_over():
-    global playing, game_over
+    global playing, round_over
     player_total = calc_hand(players_hand)
     dealer_total = calc_hand(dealers_hand)
-    game_over = True
-    #Blackjack outcomes
+    round_over = True
+
     if player_total == 21 and len(players_hand) == 2:
         print("You have blackjack, you win!")
     elif dealer_total == 21 and len(dealers_hand) == 2:
         print("The dealer has blackjack, you lose!")
-    #Busted hand outcomes
     elif player_total > 21:
         print("You busted. You lose!")
     elif dealer_total > 21:
         print("The dealer busted. You win!")
-    #Bigger hand outcomes
     elif player_total > dealer_total:
         print("You have "+str(player_total)+" while the dealer has "+str(dealer_total)+". You win!")
     elif dealer_total > player_total:
@@ -96,6 +94,7 @@ def make_bet():
             return bet
         except ValueError:
             print("Please place a bet or press 'n' to leave.")
+
 def draw(hand):
     global shoe
     card = shoe.pop()
@@ -106,6 +105,7 @@ def draw(hand):
     if calc_hand(hand) >= 21:
         game_over()
 
+
 #Main        
 print("Welcome to Blackjack!")
 while playing:
@@ -114,11 +114,11 @@ while playing:
         shuffle_up()
         
     deal_out()
-    while not game_over:
+    while not round_over:
         response = input("Press any key to HIT, press 'n' to STAY.")
         if response == 'n':
-            while calc_hand(dealers_hand) < 17:
-                draw(dealers_hand, true)
+            while calc_hand(dealers_hand, True) < 17:
+                draw(dealers_hand)
         else:
             draw(players_hand)
             if calc_hand(players_hand) > 21:
