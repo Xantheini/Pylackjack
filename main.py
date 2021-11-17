@@ -149,6 +149,15 @@ while playing:
     deal_out()
     while not round_over:
         print("================================================================")
+        
+        if calc_hand(players_hand) == 21:
+            draw(dealers_hand)
+            while calc_hand(dealers_hand, True) < 17:
+                draw(dealers_hand)
+            print("Dealer has:")
+            display_cards(dealers_hand)
+            game_over()
+
         response = input("Press any key to HIT, press 'n' to STAY.\n")
         if response.lower() == 'n':
             draw(dealers_hand)
