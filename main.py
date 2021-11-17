@@ -60,10 +60,7 @@ def calc_hand(hand, is_dealer = False):
     total = 0
     index_of_aces = []
     for card in hand:
-        try:
-            total+=card["number"]
-        except:
-            print("failed. Total: "+str(total)+" and card to be added: "+str(card["number"]))
+        total+=card["number"]
         if card["number"] == 11:
             index_of_aces.append(hand.index(card))
 
@@ -154,6 +151,7 @@ while playing:
         print("================================================================")
         response = input("Press any key to HIT, press 'n' to STAY.\n")
         if response.lower() == 'n':
+            draw(dealers_hand)
             while calc_hand(dealers_hand, True) < 17:
                 draw(dealers_hand)
             print("Dealer has:")
