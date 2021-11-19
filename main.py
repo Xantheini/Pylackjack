@@ -41,7 +41,7 @@ def display_cards(hand):
 
 def deal_out():
     #simulate real deal out, I know it's unnecessary
-    global shoe, round_over 
+    global shoe, round_over
     round_over = False
     players_hand.append(shoe.pop())
     dealers_hand.append(shoe.pop())
@@ -54,15 +54,13 @@ def deal_out():
     display_cards(dealers_hand)
 
     if calc_hand(players_hand) == 21: 
-        for card in dealers_hand: 
-            if card.get("number") == 11 or card.get("number") == 10: 
-                draw(dealers_hand)
-                print("Dealer has:")
-                display_cards(dealers_hand)
-                game_over()
-                break
-            else: 
-                game_over()
+        if calc_hand(dealers_hand, True) == 10 or calc_hand(dealers_hand, True) == 11:
+            draw(dealers_hand)
+            print("Dealer has:")
+            display_cards(dealers_hand)
+            game_over()
+        else: 
+            game_over()
 
 
 def calc_hand(hand, is_dealer = False):
