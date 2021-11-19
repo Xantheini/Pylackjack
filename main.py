@@ -73,14 +73,12 @@ def calc_hand(hand, is_dealer = False):
         total+=card_value
         if card_value == 11:
             index_of_aces.append(hand.index(card))
-    
-    ace = hand[index_of_aces.pop()]
-    
+  
     if is_dealer and total > 11 and total < 18 and len(index_of_aces) > 0: #Dealer hits on soft 17 and less, so calculate as lesser value
-        ace["number"] = 1
+        hand[index_of_aces.pop()]["number"] = 1
         total = total - 10
     elif total > 21 and len(index_of_aces) > 0: #Player can hit on any soft value
-        ace["number"] = 1
+        hand[index_of_aces.pop()]["number"] = 1
         total = total - 10
 
     return total
